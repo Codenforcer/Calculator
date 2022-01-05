@@ -42,6 +42,8 @@ namespace Calculator
                         result = SimpleMath.Div(lastnumber, newnumber);
                         break;
                 }
+
+                ResultLabel.Content = result.ToString();
             }
         }
 
@@ -56,9 +58,11 @@ namespace Calculator
 
         private void NegativeBtn_Click(object sender, RoutedEventArgs e)
         {
-            if (double.TryParse(ResultLabel.Content.ToString(), out lastnumber))
+            double temp;
+
+            if (double.TryParse(ResultLabel.Content.ToString(), out temp))
             {
-                lastnumber = lastnumber * -1;
+                temp *= -1;
                 ResultLabel.Content = lastnumber.ToString();
             }
         }
@@ -66,6 +70,18 @@ namespace Calculator
         private void AcBtn_Click(object sender, RoutedEventArgs e)
         {
             ResultLabel.Content = "0";
+        }
+
+        private void PointBtn_Click(object sender, RoutedEventArgs e)
+        {
+            if (ResultLabel.Content.ToString().Contains("."))
+            {
+                //do nothing
+            }
+            else
+            {
+                ResultLabel.Content = $"{ResultLabel.Content}.";
+            }
         }
 
         private void NumberBtn_Click(object sender, RoutedEventArgs e)
@@ -91,6 +107,7 @@ namespace Calculator
             }
 
         }
+
 
         private void OperationBtn_Click(object sender, RoutedEventArgs e)
         {
@@ -139,6 +156,11 @@ namespace Calculator
 
         public static double Div(double n1, double n2)
         {
+            if (n2 == 0)
+            {
+                MessageBox.Show("Divison by Zero is not supported", "Wrong operation", MessageBoxButton.OK, MessageBoxImage.Error);
+                return 0;
+            }
             return n1 / n2;
         }
     }
